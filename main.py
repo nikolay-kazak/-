@@ -1,22 +1,14 @@
-import asyncio
-import os
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-from aiogram import Bot, Dispatcher
-from aiogram.types import Message
-from aiogram.filters import CommandStart
-from dotenv import load_dotenv
+TOKEN = "8733497947:AAG-YE8mjcGRYADt_O-GrYn1SXEo72I7rBE"
 
-load_dotenv()
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Привет! Бот работает 🚀")
 
-bot = Bot(token=os.getenv("BOT_TOKEN"))
-dp = Dispatcher()
+app = ApplicationBuilder().token(TOKEN).build()
 
-@dp.message(CommandStart())
-async def start(message: Message):
-    await message.answer("Бот работает!")
+app.add_handler(CommandHandler("start", start))
 
-async def main():
-    await dp.start_polling(bot)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+print("Бот запущен...")
+app.run_polling()
